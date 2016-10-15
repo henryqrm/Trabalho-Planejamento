@@ -4,9 +4,7 @@
 function gerarNovaMatriz(n) {
     const novaMatriz = [];
     for (let i = 0; i < n; i++) {
-        for (let j = 0; j < n; j++) {
-            novaMatriz[i][j] = new Float64Array(n);
-        }
+        novaMatriz[i] = new Float64Array(n);
     }
     return novaMatriz;
 }
