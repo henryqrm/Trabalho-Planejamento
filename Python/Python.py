@@ -4,7 +4,7 @@ import datetime
 
 
 def gerarNovaMatriz(n):
-    return [array.array("d", [0.0]) * n for _ in range(0,n)]
+    return [[array.array("d", [0.0]) * n for _ in range(0,n)], [array.array("d", [0.0]) * n for _ in range(0,n)]]
 
 def multiplicacao(matrizA, matrizB, n):
     matrizResultado = gerarNovaMatriz(n)
@@ -32,7 +32,7 @@ def executar(n):
 
     resultado = multiplicacao(matrizA, matrizB, n)
 
-    print ("n = ", n," | Tempo de execução é: ",round((((datetime.datetime.now().timestamp())) - inicio) * 1000, 2), "ms")
+    print ("Carga: ", n," | Tempo de execução é: ",round((((datetime.datetime.now().timestamp())) - inicio) * 1000, 2), "ms")
 
 def main(argv):
     executar(10)

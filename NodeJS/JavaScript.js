@@ -4,7 +4,9 @@
 function gerarNovaMatriz(n) {
     const novaMatriz = [];
     for (let i = 0; i < n; i++) {
-        novaMatriz[i] = new Float64Array(n);
+        for (let j = 0; j < n; j++) {
+            novaMatriz[i][j] = new Float64Array(n);
+        }
     }
     return novaMatriz;
 }
@@ -43,7 +45,7 @@ function executar(n) {
 
     const resultado = multiplicação(matrizA, matrizB, n);
 
-    console.log(`n = ${n} | Tempo de execução é: ${(new Date() - inicio)}ms`);
+    console.log(`Carga: ${n} | Tempo de execução é: ${(new Date() - inicio)}ms`);
 }
 executar(10);
 executar(100);
