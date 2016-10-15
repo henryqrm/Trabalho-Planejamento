@@ -3,7 +3,7 @@ function gerarNovaMatriz($n){
 	$novaMatriz = array();
 	for ($i=0; $i < $n; $i++) {
         for ($j=0; $j < $n; $j++) {
-            $novaMatriz[$n] = 0.0;
+            $novaMatriz[$i][$j] = 0.0;
         }
 	}
 }
