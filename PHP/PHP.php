@@ -6,6 +6,7 @@ function gerarNovaMatriz($n){
             $novaMatriz[$i][$j] = 0.0;
         }
 	}
+	return $novaMatriz;
 }
 
 function multiplicacao($matrizA, $matrizB, $n) {
