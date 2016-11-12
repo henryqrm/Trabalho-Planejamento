@@ -34,18 +34,65 @@ function gerarMatrizPopulada(n) {
     return matriz;
 }
 
-function executar(n) {
-    const inicio = new Date();
+function executar() {
+    const tempoInicioOcupado = new Date();
+    const cargas = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000];
+    const T = 300; // 5 minutos
 
-    const matrizA = gerarMatrizPopulada(n);
+    for (var index = 0; index < cargas.length; index++) {
 
-    const matrizB = gerarMatrizPopulada(n);
+        const inicio = new Date();
 
-    const resultado = multiplicação(matrizA, matrizB, n);
+        const C = cargas[index];
 
-    console.log(`Carga: ${n} | Tempo de execução é: ${(new Date() - inicio)}ms`);
+        const matrizA = gerarMatrizPopulada(C);
+
+        const matrizB = gerarMatrizPopulada(C);
+
+        const resultado = multiplicação(matrizA, matrizB, C);
+
+        const B = (new Date() - inicio)/1000;
+
+        console.log(`Processamento: ${index+1} | Carga (C): ${C} | Tempo (B): ${B.toFixed(3)}seg`);
+
+        if ((index + 1) === cargas.length) { // Mostra a última carga, que é a que vamos trabalhar.
+            console.log('\n\n\tCarga Trabalhada');
+            
+            console.log(`\n\nProcessamento: ${index+1} | Carga (C): ${C} | Tempo (B): ${B.toFixed(3)}seg`);
+
+
+            const μ = C / B
+            console.log(`\nTaxa média de atendimento (μ = C/B) ${μ.toFixed(3)}carga/seg`);
+
+            const S = 1 / μ;
+            console.log(`Tempo médio de atendimento (S = 1/μ) ${S.toFixed(3)}seg/carga`);
+
+            const X = C / T;
+            console.log(`Taxa média de processamento (X = C/T): ${X.toFixed(3)}carga/seg`);
+
+            const λ = X;
+            console.log(`Hipótese do equilíbrio de fluxo (λ = X): ${λ.toFixed(3)}carga/seg`);
+
+            const U = S * λ;
+            console.log(`Teorema da taxa de processamento (U = S × λ): ${U.toFixed(3)} ou ${U.toFixed(3)*100}%`);
+
+            const R = S / (1 - U);
+            console.log(`Tempo médio de resposta [R = S/(1 - U)]: ${R.toFixed(3)}seg/carga`);
+
+            const W = R - S;
+            console.log(`Tempo médio de espera (W = R – S): ${W.toFixed(3)}seg/carga`);
+
+
+            const λsat = 1 / S;
+            console.log(`Identificação da Saturação (λsat = 1/S): ${λsat.toFixed(3)}carga/seg`);
+
+            const cargaSaturada = λsat * T;
+            console.log(`Tamanho da carga saturada (λsat x T) ${cargaSaturada.toFixed(3)}carga`);
+        }
+    }
+
+    console.log(`Tempo total ocupado (B) ${((new Date() - tempoInicioOcupado)/60000).toFixed(3)} minutos) ou ${((new Date() - tempoInicioOcupado)/1000).toFixed(3)}seg`);
+    console.log(`Tempo Observado (T) 5 minutos ou ${T}segs`);
 }
-executar(10);
-executar(100);
-executar(200);
-executar(300);
+
+executar();
