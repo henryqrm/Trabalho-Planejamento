@@ -57,15 +57,15 @@ function executar() {
 
         if ((index + 1) === cargas.length) { // Mostra a última carga, que é a que vamos trabalhar.
             console.log('\n\n\tCarga Trabalhada');
-            
+
             console.log(`\n\nProcessamento: ${index+1} | Carga (C): ${C} | Tempo (B): ${B.toFixed(3)}seg`);
 
 
             const μ = C / B
-            console.log(`\nTaxa média de atendimento (μ = C/B) ${μ.toFixed(3)}carga/seg`);
+            console.log(`\nTaxa média de atendimento (μ = C/B): ${μ.toFixed(3)}carga/seg`);
 
             const S = 1 / μ;
-            console.log(`Tempo médio de atendimento (S = 1/μ) ${S.toFixed(3)}seg/carga`);
+            console.log(`Tempo médio de atendimento (S = 1/μ): ${S.toFixed(3)}seg/carga`);
 
             const X = C / T;
             console.log(`Taxa média de processamento (X = C/T): ${X.toFixed(3)}carga/seg`);
@@ -87,11 +87,11 @@ function executar() {
             console.log(`Identificação da Saturação (λsat = 1/S): ${λsat.toFixed(3)}carga/seg`);
 
             const cargaSaturada = λsat * T;
-            console.log(`Tamanho da carga saturada (λsat x T) ${cargaSaturada.toFixed(3)}carga`);
+            console.log(`Tamanho da carga saturada (λsat x T): ${cargaSaturada.toFixed(3)}carga`);
         }
     }
 
-    console.log(`Tempo total ocupado (B) ${((new Date() - tempoInicioOcupado)/60000).toFixed(3)} minutos) ou ${((new Date() - tempoInicioOcupado)/1000).toFixed(3)}seg`);
+    console.log(`Tempo total ocupado (B) ${((new Date() - tempoInicioOcupado)/60000).toFixed(3)} minutos ou ${((new Date() - tempoInicioOcupado)/1000).toFixed(3)}seg`);
     console.log(`Tempo Observado (T) 5 minutos ou ${T}segs`);
 }
 
