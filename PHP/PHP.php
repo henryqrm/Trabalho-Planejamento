@@ -34,20 +34,80 @@ function gerarMatrizPopulada($n) {
     return $matriz;
 }
 
-function executar($n) {
-    $inicio = microtime(true);
+function executar() {
+    list($usec, $sec) = explode(' ', microtime());
+    $tempoInicioOcupado = (float) $sec + (float) $usec;
 
-    $matrizA = gerarMatrizPopulada($n);
+    $cargas = array(100, 200, 300, 400, 500, 600, 700, 800, 900, 1000);
+    $T = 900; // 15 minutos
 
-    $matrizB = gerarMatrizPopulada($n);
+    for ($index=0; $index < count($cargas); $index++) {
+      list($usec1, $sec1) = explode(' ', microtime());
+      $script_start = (float) $sec1 + (float) $usec1;
 
-    $resultado = multiplicacao($matrizA, $matrizB, $n);
+      $C = $cargas[$index];
+      $matrizA = gerarMatrizPopulada($C);
+      $matrizB = gerarMatrizPopulada($C);
+      $resultado = multiplicacao($matrizA, $matrizB, $C);
 
-    $tempo = microtime(true) - $inicio;
-    echo "Carga: " . $n . " | Tempo de execução é : " . $tempo . "ms";
+      list($usec1, $sec1) = explode(' ', microtime());
+      $script_end = (float) $sec1 + (float) $usec1;
+
+      $B = round($script_end - $script_start, 3);
+
+      echo "\n";
+      echo "Processamento: " . ($index+1) . " | Carga (C): " . $C . " | Tempo (B): " . round($B,3) ."segs";
+
+      if(($index+1) === count($cargas)){
+        print "\n \n \t Carga Trabalhada";
+        print "\n \n";
+        echo "Processamento: " . ($index+1) . " | Carga (C): " . $C . " | Tempo (B): " . round($B,3) . "segs";
+        echo "\n";
+
+        $μ = $C / $B;
+        echo "Taxa média de atendimento (μ = C/B): " . round($μ,3) . "carga/segs";
+        echo "\n";
+
+        $S = 1 / $μ;
+        echo "Tempo médio de atendimento (S = 1/μ): " . round($S,3) . "segs/carga";
+        echo "\n";
+
+        $X = $C / $T;
+        echo "Taxa média de processamento (X = C/T): " . round($X,3) . "carga/segs";
+        echo "\n";
+
+        $λ = $X;
+        echo "Hipótese do equilíbrio de fluxo (λ = X): " . round($λ,3) . "carga/segs";
+        echo "\n";
+
+        $U = $S * $λ;
+        echo "Teorema da taxa de processamento (U = S × λ): " . round($U,3) . " ou " . round($U,3)*100 . "%";
+        echo "\n";
+
+        $R = $S / (1 - $U);
+        echo "Tempo médio de resposta [R = S/(1 - U)]: " . round($R,3) . "segs/carga";
+        echo "\n";
+
+        $W = $R - $S;
+        echo "Tempo médio de espera (W = R – S): " . round($W,3) . "segs/carga";
+        echo "\n";
+
+        $λsat = 1 / $S;
+        echo "Identificação da Saturação (λsat = 1/S): " . round($λsat,3) . "carga/segs";
+        echo "\n";
+
+        $cargaSaturada = $λsat * $T;
+        echo "Tamanho da carga saturada (λsat x T): " . round($cargaSaturada,3) . "carga";
+      }
+    }
+
+    list($usec, $sec) = explode(' ', microtime());
+    $tempoFinalOcupado = (float) $sec + (float) $usec;
+
+    $tempoCalculado =  round($tempoFinalOcupado - $tempoInicioOcupado, 3);
     echo "\n";
+    echo "Tempo total ocupado (B): " . round($tempoCalculado/60,3) . " minutos ou " . $tempoCalculado . "segundos";
+    echo "\n";
+    echo "Tempo Observado (T) " . ($T/60) . " minutos ou " . $T . "segundos";
 }
-executar(10);
-executar(100);
-executar(200);
-executar(300);
+executar();
