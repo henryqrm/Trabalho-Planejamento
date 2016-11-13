@@ -1,3 +1,5 @@
+import java.text.DecimalFormat;
+
 public class Java {
 	private static double[][] gerarNovaMatriz(int n){
 		double[][] novaMatriz = new double[n][n];
@@ -34,24 +36,68 @@ public class Java {
 	    return matriz;
 	}
 
-	private static void executar(int n) {
-		long inicio = System.nanoTime();
+	private static void executar() {
+		long tempoInicioOcupado = System.nanoTime();
 
-	    double[][] matrizA = gerarMatrizPopulada(n);
+	    int cargas[] = {100, 200, 300, 400, 500, 600, 700, 800, 900, 1000};
+	    int t = 300; // 5 minutos
+	    DecimalFormat df = new DecimalFormat("0.###");
 
-	    double[][] matrizB = gerarMatrizPopulada(n);
+	    for (int index=0; index < cargas.length; index++) {
+	      long script_start = System.nanoTime();
 
-	    double[][] resultado = multiplicacao(matrizA, matrizB, n);
+	      int c = cargas[index];
+	      double[][] matrizA = gerarMatrizPopulada(c);
+	      double[][] matrizB = gerarMatrizPopulada(c);
+	      double[][] resultado = multiplicacao(matrizA, matrizB, c);
 
-	    long fim = System.nanoTime() - inicio;
-	    double tempo = fim * 1E-6;
-	    System.out.println("Carga: " + n + " | Tempo de execu��o � : " + tempo + "ms");
+	      long script_end = (System.nanoTime() - script_start);
+	      double b = (script_end * 1E-6)/1000;
+
+	      System.out.println("Processamento: " + (index+1) + " | Carga (C): " + c + " | Tempo (B): " + df.format(b) + "segs");
+
+	      if((index+1) == cargas.length){
+	    	System.out.println("\n \n \t Carga Trabalhada");
+	    	System.out.println("\n \n");
+	    	System.out.println("Processamento: " + (index+1) + " | Carga (C): " + c + " | Tempo (B): " + df.format(b) + "segs");
+
+	        double μ = c / b;
+	        System.out.println("Taxa média de atendimento (μ = C/B): " + df.format(μ) + "carga/segs");
+
+	        double s = 1 / μ;
+	        System.out.println("Tempo médio de atendimento (S = 1/μ): " + df.format(s) + "segs/carga");
+
+	        double x = c / t;
+	        System.out.println("Taxa média de processamento (X = C/T): " + df.format(x) + "carga/segs");
+
+	        double λ = x;
+	        System.out.println("Hipótese do equilíbrio de fluxo (λ = X): " + df.format(λ) + "carga/segs");
+
+	        double u = s * λ;
+	        System.out.println("Teorema da taxa de processamento (U = S × λ): " + df.format(u) + " ou " + df.format((u*100)) + "%");
+
+	        double r = s / (1 - u);
+	        System.out.println("Tempo médio de resposta [R = S/(1 - U)]: " + df.format(r) + "segs/carga");
+
+	        double w = r - s;
+	        System.out.println("Tempo médio de espera (W = R – S): " + df.format(w) + "segs/carga");
+
+	        double λsat = 1 / s;
+	        System.out.println("Identificação da Saturação (λsat = 1/S): " + df.format(λsat) + "carga/segs");
+
+	        double cargaSaturada = λsat * t;
+	        System.out.println("Tamanho da carga saturada (λsat x T): " + df.format(cargaSaturada) + "carga");
+	      }
+	    }
+
+	    long tempoFinalOcupado = (System.nanoTime() - tempoInicioOcupado);
+	    double tempoFinalCalculado = (tempoFinalOcupado * 1E-6)/1000;
+
+	    System.out.println("\nTempo total ocupado (B): " + df.format((tempoFinalCalculado/60)) + " minutos ou " + df.format(tempoFinalCalculado) + "segundos");
+	    System.out.println("Tempo Observado (T) " + (t/60) + " minutos ou " + t + "segundos");
 	}
 
 	public static void main(String[] args) {
-		executar(10);
-		executar(100);
-		executar(200);
-		executar(300);
+		executar();
 	}
 }
