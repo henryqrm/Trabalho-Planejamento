@@ -37,7 +37,7 @@ function gerarMatrizPopulada(n) {
 function executar() {
     const tempoInicioOcupado = new Date();
     const cargas = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000];
-    const T = 300; // 5 minutos
+    const T = 900; // 15 minutos
 
     for (var index = 0; index < cargas.length; index++) {
 

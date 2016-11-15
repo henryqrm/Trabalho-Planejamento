@@ -40,7 +40,7 @@ public class Java {
 		long tempoInicioOcupado = System.nanoTime();
 
 	    int cargas[] = {100, 200, 300, 400, 500, 600, 700, 800, 900, 1000};
-	    int t = 300; // 5 minutos
+	    int t = 900; // 15 minutos
 	    DecimalFormat df = new DecimalFormat("0.###");
 
 	    for (int index=0; index < cargas.length; index++) {
